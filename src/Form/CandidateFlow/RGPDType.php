@@ -1,28 +1,29 @@
 <?php
 
-namespace App\Form\Type\Step;
+namespace App\Form\CandidateFlow;
 
-use App\Form\Data\BasicDto;
+use App\Entity\Candidate;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class Step3Type extends AbstractType
+class RGPDType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('field31', TextareaType::class)
-            ->add('field32', CheckboxType::class, ['required' => false])
+            ->add('consentRGPD', CheckboxType::class, [
+                'label' => 'I agree to the processing of my personal data in accordance with the RGPD regulations.',
+                'mapped' => false,
+            ])
         ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => BasicDto::class,
+            'data_class' => Candidate::class,
             'inherit_data' => true,
         ]);
     }
