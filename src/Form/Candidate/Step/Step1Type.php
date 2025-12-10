@@ -1,25 +1,25 @@
 <?php
 
-namespace App\Form\CandidateFlow;
+namespace App\Form\Candidate\Step;
 
 use App\Entity\Candidate;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class PersonalType extends AbstractType
+class Step1Type extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('firstName', TextareaType::class)
-            ->add('lastName', TextareaType::class)
+            ->add('firstName', TextType::class)
+            ->add('lastName', TextType::class)
             ->add('email', EmailType::class)
-            ->add('phone', TextareaType::class, [ 'required' => false ])
-            ->add('hasExperience', CheckboxType::class, [ 'required' => false, 'data' => false ])
+            ->add('phone', TextType::class, ['required' => false])
+            ->add('hasExperience', CheckboxType::class, ['required' => false])
         ;
     }
 

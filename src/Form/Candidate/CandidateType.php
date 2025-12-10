@@ -1,28 +1,28 @@
 <?php
 
-namespace App\Form;
+namespace App\Form\Candidate;
 
 use App\Entity\Candidate;
-use App\Form\CandidateFlow\DetailsType;
-use App\Form\CandidateFlow\DisponibilityType;
-use App\Form\CandidateFlow\PersonalType;
-use App\Form\CandidateFlow\RGPDType;
+use App\Form\Candidate\Step\Step2Type;
+use App\Form\Candidate\Step\ReviewType;
+use App\Form\Candidate\Step\Step1Type;
+use App\Form\Candidate\Step\Step3Type;
+use App\Form\Candidate\Step\Step4Type;
 use Symfony\Component\Form\Flow\AbstractFlowType;
 use Symfony\Component\Form\Flow\FormFlowBuilderInterface;
 use Symfony\Component\Form\Flow\Type\NavigatorFlowType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CandidateFlowType extends AbstractFlowType
+class CandidateType extends AbstractFlowType
 {
     public function buildFormFlow(FormFlowBuilderInterface $builder, array $options): void
     {
-        $builder->addStep('personal', PersonalType::class);
-        $builder->addStep('disponibility', DisponibilityType::class);
-        if ($builder->getData()->hasExperience()) {
-            $builder->addStep('details', DetailsType::class);
-        }
-        $builder->addStep('rgpd', RGPDType::class);
-
+        $builder
+            ->addStep('userInfo', Step1Type::class)
+            ->addStep('experienceDetails', Step2Type::class, [], fn(Candidate $data) => !$data->hasExperience())
+            ->addStep('availability', Step3Type::class)
+            ->addStep('consentRGPD', Step4Type::class);
+        $builder->addStep('review', ReviewType::class);
         $builder->add('navigator', NavigatorFlowType::class);
     }
 

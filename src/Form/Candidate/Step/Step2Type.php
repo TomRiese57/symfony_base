@@ -1,22 +1,19 @@
 <?php
 
-namespace App\Form\CandidateFlow;
+namespace App\Form\Candidate\Step;
 
 use App\Entity\Candidate;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class RGPDType extends AbstractType
+class Step2Type extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('consentRGPD', CheckboxType::class, [
-                'label' => 'I agree to the processing of my personal data in accordance with the RGPD regulations.',
-                'mapped' => false,
-            ])
+            ->add('experienceDetails', TextType::class, ['required' => false])
         ;
     }
 
