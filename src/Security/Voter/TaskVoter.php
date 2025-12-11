@@ -58,7 +58,7 @@ final class TaskVoter extends Voter
     private function canView(Task $task, UserInterface $user): bool
     {
         // Règle : Un utilisateur peut seulement voir les tâches dont il est l'auteur
-        return $this->canEdit($task, $user); // La logique est la même que pour l'édition
+        return $user === $task->getAuthor();
     }
 
     private function canDelete(Task $task, UserInterface $user): bool

@@ -3,11 +3,14 @@
 namespace App\Entity;
 
 use App\Repository\TaskRepository;
+use App\Traits\TimestampableTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TaskRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Task
 {
+    use TimestampableTrait;
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -18,12 +21,6 @@ class Task
 
     #[ORM\Column(length: 255)]
     private ?string $description = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createAt = null;
-
-    #[ORM\Column]
-    private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'tasks')]
     #[ORM\JoinColumn(nullable: false)]
@@ -54,30 +51,6 @@ class Task
     public function setDescription(string $description): static
     {
         $this->description = $description;
-
-        return $this;
-    }
-
-    public function getCreateAt(): ?\DateTimeImmutable
-    {
-        return $this->createAt;
-    }
-
-    public function setCreateAt(\DateTimeImmutable $createAt): static
-    {
-        $this->createAt = $createAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeImmutable
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
-    {
-        $this->updatedAt = $updatedAt;
 
         return $this;
     }

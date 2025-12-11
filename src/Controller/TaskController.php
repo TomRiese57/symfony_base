@@ -45,6 +45,9 @@ final class TaskController extends AbstractController
     #[Route('/{id}', name: 'app_task_show', methods: ['GET'])]
     public function show(Task $task): Response
     {
+        // Cela va déclencher le Voter avec l'attribut TASK_VIEW
+        $this->denyAccessUnlessGranted('TASK_VIEW', $task);
+
         return $this->render('task/show.html.twig', [
             'task' => $task,
         ]);
