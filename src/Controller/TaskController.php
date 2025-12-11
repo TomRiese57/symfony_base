@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Task;
 use App\Form\TaskType;
 use App\Repository\TaskRepository;
+use App\Service\TaskService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -54,10 +55,19 @@ final class TaskController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_task_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Task $task, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Task $task, EntityManagerInterface $entityManager, TaskService $taskService): Response
     {
         // Cela va déclencher le Voter avec l'attribut TASK_EDIT
         $this->denyAccessUnlessGranted('TASK_EDIT', $task);
+
+        // 1. Vérification de la règle des 7 jours
+        if (!$taskService->canEdit($task)) {
+            // Message flash pour l'utilisateur
+            $this->addFlash('danger', 'Impossible de modifier cette tâche : elle a été créée il y a plus de 7 jours.');
+
+            // Redirection vers la liste
+            return $this->redirectToRoute('app_task_index');
+        }
 
         $form = $this->createForm(TaskType::class, $task);
         $form->handleRequest($request);

@@ -17,6 +17,7 @@ class AppFixtures extends Fixture
     {
         return [
             UserFixtures::class,
+            TaskFixtures::class,
         ];
     }
 }
